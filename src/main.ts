@@ -6,6 +6,7 @@ import 'virtual:svg-icons-register'
 import gloablComponent from '@/components/index'
 import '@/styles/index.scss'
 import router from './router'
+import pinia from './stores'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
@@ -17,5 +18,6 @@ app.use(ElementPlus, {
   locale: zhCn,
 })
 app.use(router)
+app.use(pinia)
 app.use(gloablComponent)
 app.mount('#app')
