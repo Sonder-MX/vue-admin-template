@@ -2,6 +2,10 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
+import 'virtual:svg-icons-register'
+import gloablComponent from '@/components/index'
+import '@/styles/index.scss'
+import router from './router'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
@@ -12,10 +16,6 @@ const app = createApp(App)
 app.use(ElementPlus, {
   locale: zhCn,
 })
-
-import 'virtual:svg-icons-register'
-import gloablComponent from '@/components/index'
-import '@/styles/index.scss'
-
+app.use(router)
 app.use(gloablComponent)
 app.mount('#app')
