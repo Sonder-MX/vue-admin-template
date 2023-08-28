@@ -3,8 +3,9 @@ export interface LoginForm {
   password: string
 }
 
-export interface TokenData {
-  token: string
+export interface DataType {
+  token?: string
+  message?: string
 }
 
 export interface UserInfo {
@@ -20,6 +21,5 @@ export interface UserInfo {
 // 响应
 export interface ResponseData<T = any> {
   code: number
-  message?: string
   data: T
 }
