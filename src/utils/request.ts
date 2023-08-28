@@ -2,7 +2,7 @@ import axios from 'axios'
 import { ElMessage } from 'element-plus'
 
 const request = axios.create({
-  baseURL: import.meta.env.VITE_APP_BASE_API,
+  baseURL: import.meta.env.VITE_APP_BASE_API as string,
   timeout: 5000,
 })
 
@@ -15,7 +15,7 @@ request.interceptors.request.use((config) => {
 request.interceptors.response.use(
   // 成功回调
   (response) => {
-    return response.data
+    return Promise.resolve(response.data)
   },
   // 失败回调 处理http网络错误
   (error) => {
@@ -44,7 +44,7 @@ request.interceptors.response.use(
       message: msg,
     })
 
-    return Promise.reject(error)
+    return Promise.reject(error.message)
   },
 )
 
