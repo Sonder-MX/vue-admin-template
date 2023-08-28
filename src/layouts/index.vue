@@ -16,7 +16,9 @@
       </el-scrollbar>
     </div>
     <!-- 顶部导航 -->
-    <div class="layout-tabbar"></div>
+    <div class="layout-tabbar">
+      <TabBar />
+    </div>
     <!-- content -->
     <div class="layout-main">
       <Main />
@@ -29,7 +31,8 @@ import Logo from '@/components/Logo.vue'
 import MenuCpmpon from '@/components/MenuCpmpon.vue'
 import useUserStore from '@/stores/modules/user'
 import { useRoute } from 'vue-router'
-import Main from './Main/index.vue'
+import Main from './main/index.vue'
+import TabBar from './tabbar/index.vue'
 
 const userStore = useUserStore()
 const route = useRoute()
