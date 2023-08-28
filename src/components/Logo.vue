@@ -1,12 +1,19 @@
 <template>
   <div class="logo">
     <img alt="logo" :src="settings.logo" />
-    <p>{{ settings.logoTitle }}</p>
+    <p v-if="isTitle">{{ settings.logoTitle }}</p>
   </div>
 </template>
 
 <script setup lang="ts">
 import settings from '@/settings'
+
+defineProps({
+  isTitle: {
+    type: Boolean,
+    default: true,
+  },
+})
 </script>
 
 <style lang="scss" scoped>

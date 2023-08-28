@@ -40,7 +40,7 @@
           <el-icon>
             <component :is="item.meta.icon"></component>
           </el-icon>
-          <span>{{ item.meta.title }}</span>
+          <span v-if="!layoutSettingStore.fold">{{ item.meta.title }}</span>
         </template>
         <MenuCpmpon :menuList="item.children"></MenuCpmpon>
       </el-sub-menu>
@@ -49,10 +49,12 @@
 </template>
 
 <script lang="ts" setup>
+import useLayOutSettingStore from '@/stores/modules/setting'
 import { useRouter } from 'vue-router'
 
 defineProps(['menuList'])
 
+const layoutSettingStore = useLayOutSettingStore()
 const router = useRouter()
 
 const goRoute = (vc: any) => {

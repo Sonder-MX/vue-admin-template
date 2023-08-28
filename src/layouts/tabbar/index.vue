@@ -24,7 +24,6 @@ export default {
   height: 100%;
   display: flex;
   justify-content: space-between;
-  // background-image: linear-gradient(to right, rgb(232, 223, 223), rgb(201, 178, 178), rgb(197, 165, 165));
 
   .tabbar-left {
     display: flex;

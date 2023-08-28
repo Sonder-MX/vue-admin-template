@@ -51,6 +51,7 @@ export const routes = [
       hidden: false,
       icon: 'Lock',
     },
+    redirect: '/acl/user',
     children: [
       {
         path: '/acl/user',
@@ -93,6 +94,7 @@ export const routes = [
       hidden: false,
       icon: 'ShoppingBag',
     },
+    redirect: '/product/trademark',
     children: [
       {
         path: '/product/trademark',
