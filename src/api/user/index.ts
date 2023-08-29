@@ -7,9 +7,9 @@ enum API {
 }
 
 export const reqLogin = (data: LoginForm): Promise<ResponseData<DataType>> => {
-  return request.post<ResponseData<DataType>, any>(API.LOGIN_URL, data)
+  return request.post<any, ResponseData<DataType>>(API.LOGIN_URL, data)
 }
 
 export const reqUserInfo = () => {
-  return request.get<ResponseData<UserInfo>>(API.USERINFO_URL)
+  return request.get<any, ResponseData<UserInfo>>(API.USERINFO_URL)
 }

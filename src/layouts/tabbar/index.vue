@@ -12,6 +12,14 @@
 <script setup lang="ts">
 import Breadcrumb from './breadcrumb/index.vue'
 import Setting from './setting/index.vue'
+import { onMounted } from 'vue'
+import useUserStore from '@/stores/modules/user'
+
+const userStore = useUserStore()
+
+onMounted(() => {
+  userStore.getUserInfo()
+})
 </script>
 <script lang="ts">
 export default {

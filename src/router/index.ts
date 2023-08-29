@@ -7,7 +7,7 @@ export const routes = [
     component: () => import('@/layouts/index.vue'),
     redirect: '/home',
     meta: {
-      title: 'layout',
+      // title: 'layout',
       hidden: false,
     },
     children: [

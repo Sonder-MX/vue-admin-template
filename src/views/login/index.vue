@@ -47,7 +47,7 @@
 <script setup lang="ts">
 import { User, Lock } from '@element-plus/icons-vue'
 import { reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import useUserStore from '@/stores/modules/user'
 import { ElNotification } from 'element-plus'
 import { getTime } from '@/utils/timeTips'
@@ -60,6 +60,7 @@ let loginForm = reactive({
 })
 let loading = ref(false)
 const router = useRouter()
+const route = useRoute()
 const userStore = useUserStore()
 
 const loginFormRules = reactive<FormRules<typeof loginForm>>({
@@ -75,7 +76,13 @@ const login = async () => {
   loading.value = true
   try {
     await userStore.userLogin(loginForm)
-    router.push('/')
+
+    // 判断是否有query
+    if (route.query.redirect) {
+      router.push(route.query.redirect as string)
+    } else {
+      router.push('/')
+    }
     ElNotification({
       title: `Hi~, ${getTime()}`,
       message: '欢迎回来',
