@@ -30,6 +30,9 @@ const useUserStore = defineStore('User', {
       if (result.code === 200) {
         this.username = result.data.username
         this.avatar = result.data.avatar
+        return Promise.resolve('success')
+      } else {
+        return Promise.reject('error')
       }
     },
 
