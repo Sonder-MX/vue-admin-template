@@ -1,6 +1,10 @@
 import { defineStore } from 'pinia'
-import { reqLogin, reqUserInfo } from '@/api/user'
-import type { LoginForm, ResponseData, DataType } from '@/api/user/type'
+import { reqLogin, reqUserInfo, reqLogout } from '@/api/user'
+import type {
+  loginFormData,
+  loginResponseData,
+  userInfoReponseData,
+} from '@/api/user/type'
 import type { UserState } from './types/type'
 import { routes } from '@/router'
 
@@ -13,36 +17,43 @@ const useUserStore = defineStore('User', {
   }),
   getters: {},
   actions: {
-    async userLogin(data: LoginForm) {
-      await reqLogin(data).then((res: ResponseData<DataType>) => {
-        if (res.code === 200) {
-          this.token = res.data.token as string
-          localStorage.setItem('token', res.data.token as string)
-          return Promise.resolve(res.data)
-        } else {
-          return Promise.reject(new Error(res.data.message))
-        }
-      })
-    },
+    //用户登录的方法
+    async userLogin(data: loginFormData) {
+      const result: loginResponseData = await reqLogin(data)
+      if (result.code == 200) {
+        this.token = result.data as string
+        localStorage.setItem('token', result.data as string)
 
-    async getUserInfo() {
-      const result = await reqUserInfo()
-      if (result.code === 200) {
-        this.username = result.data.username
-        this.avatar = result.data.avatar
-        return Promise.resolve('success')
+        //能保证当前async函数返回一个成功的promise
+        return 'ok'
       } else {
-        return Promise.reject('error')
+        return Promise.reject(new Error(result.data))
       }
     },
-
-    userLogout() {
-      // 向后端发送请求，让token失效 -> eg: 将未过期的token加入redis黑名单
-
-      this.token = null
-      localStorage.removeItem('token')
-      this.username = ''
-      this.avatar = ''
+    //获取用户信息方法
+    async userInfo() {
+      const result: userInfoReponseData = await reqUserInfo()
+      if (result.code == 200) {
+        this.username = result.data.name
+        this.avatar = result.data.avatar
+        return 'ok'
+      } else {
+        return Promise.reject(new Error(result.message))
+      }
+    },
+    //退出登录
+    async userLogout() {
+      //退出登录请求
+      const result: any = await reqLogout()
+      if (result.code == 200) {
+        this.token = ''
+        this.username = ''
+        this.avatar = ''
+        localStorage.clear()
+        return 'ok'
+      } else {
+        return Promise.reject(new Error(result.message))
+      }
     },
   },
 })

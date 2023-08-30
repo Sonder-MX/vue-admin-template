@@ -56,7 +56,7 @@ import type { FormInstance, FormRules } from 'element-plus'
 const loginFormRef = ref<FormInstance>()
 let loginForm = reactive({
   username: 'admin',
-  password: '111111',
+  password: 'atguigu123',
 })
 let loading = ref(false)
 const router = useRouter()

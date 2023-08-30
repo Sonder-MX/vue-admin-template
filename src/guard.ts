@@ -22,10 +22,10 @@ router.beforeEach(async (to, _from, next) => {
         next()
       } else {
         try {
-          await userStore.getUserInfo()
+          await userStore.userInfo()
           next()
         } catch (error) {
-          userStore.userLogout()
+          await userStore.userLogout()
           next({ path: '/login', query: { redirect: to.fullPath } })
         }
       }

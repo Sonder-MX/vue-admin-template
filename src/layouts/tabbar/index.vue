@@ -18,7 +18,7 @@ import useUserStore from '@/stores/modules/user'
 const userStore = useUserStore()
 
 onMounted(() => {
-  userStore.getUserInfo()
+  userStore.userInfo()
 })
 </script>
 <script lang="ts">
