@@ -1,8 +1,9 @@
 import SvgIcon from './SvgIcon.vue'
+import Category from './Category.vue'
 import type { App, Component } from 'vue'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
-const components: Record<string, Component> = { SvgIcon }
+const components: Record<string, Component> = { SvgIcon, Category }
 
 export default {
   install(app: App) {
