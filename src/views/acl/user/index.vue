@@ -62,7 +62,7 @@
               type="primary"
               size="small"
               icon="Edit"
-              @click="updateUser"
+              @click="updateUser(row)"
             >
               编辑
             </el-button>
@@ -89,7 +89,7 @@
     <!-- 抽屉结构 -->
     <el-drawer v-model="drawerShow">
       <template #header>
-        <h4>分配角色(职位)</h4>
+        <h4>{{ userParams.id ? '更新用户' : '新增用户' }}</h4>
       </template>
       <template #default>
         <el-form :model="userParams" :rules="rules" ref="formRef">
@@ -99,7 +99,7 @@
           <el-form-item label="用户昵称" prop="name">
             <el-input v-model="userParams.name"></el-input>
           </el-form-item>
-          <el-form-item label="用户密码" prop="password">
+          <el-form-item label="用户密码" prop="password" v-if="!userParams.id">
             <el-input v-model="userParams.password"></el-input>
           </el-form-item>
         </el-form>
@@ -144,6 +144,7 @@ const getAllUser = async (page = 1) => {
 const addUser = () => {
   drawerShow.value = !drawerShow.value
   Object.assign(userParams, {
+    id: 0,
     username: '',
     name: '',
     password: '',
@@ -157,9 +158,15 @@ const addUser = () => {
   })
 }
 
-const updateUser = () => {
+const updateUser = (userRow: UserData) => {
   drawerShow.value = !drawerShow.value
-  console.log('编辑用户')
+  Object.assign(userParams, userRow)
+
+  // 清除上一次的校验结果
+  nextTick(() => {
+    formRef.value.clearValidate('username')
+    formRef.value.clearValidate('name')
+  })
 }
 
 const save = async () => {
@@ -171,7 +178,9 @@ const save = async () => {
       message: userParams.id ? '编辑成功' : '添加成功',
       type: 'success',
     })
-    getAllUser()
+    getAllUser(userParams.id ? pageNo.value : 1)
+
+    window.location.reload()
   } else {
     drawerShow.value = false
     ElMessage({
@@ -217,7 +226,7 @@ const rules = {
   ],
   password: [
     { required: true, message: '请输入用户密码', trigger: 'blur' },
-    { min: 6, max: 18, message: '密码长度在 6 到 18 个字符', trigger: 'blur' },
+    { min: 6, message: '密码长度在 6 个字符以上', trigger: 'blur' },
   ],
 }
 
