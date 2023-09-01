@@ -13,7 +13,7 @@
     </el-card>
 
     <el-card style="margin-top: 20px">
-      <el-button type="primary">添加用户</el-button>
+      <el-button type="primary" @click="addUser">添加用户</el-button>
       <el-button type="danger">删除用户</el-button>
 
       <!-- table -->
@@ -58,7 +58,14 @@
             <el-button type="primary" size="small" icon="User">
               分类角色
             </el-button>
-            <el-button type="primary" size="small" icon="Edit">编辑</el-button>
+            <el-button
+              type="primary"
+              size="small"
+              icon="Edit"
+              @click="updateUser"
+            >
+              编辑
+            </el-button>
             <el-button type="primary" size="small" icon="Delete">
               删除
             </el-button>
@@ -78,18 +85,52 @@
         @current-change="getAllUser"
       />
     </el-card>
+
+    <!-- 抽屉结构 -->
+    <el-drawer v-model="drawerShow">
+      <template #header>
+        <h4>分配角色(职位)</h4>
+      </template>
+      <template #default>
+        <el-form :model="userParams" :rules="rules" ref="formRef">
+          <el-form-item label="用户姓名" prop="username">
+            <el-input v-model="userParams.username"></el-input>
+          </el-form-item>
+          <el-form-item label="用户昵称" prop="name">
+            <el-input v-model="userParams.name"></el-input>
+          </el-form-item>
+          <el-form-item label="用户密码" prop="password">
+            <el-input v-model="userParams.password"></el-input>
+          </el-form-item>
+        </el-form>
+      </template>
+      <template #footer>
+        <div style="flex: auto">
+          <el-button @click="cancel">取消</el-button>
+          <el-button type="primary" @click="save">确定</el-button>
+        </div>
+      </template>
+    </el-drawer>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { reqUserInfo } from '@/api/acl/user'
-import type { UserRespData, Records } from '@/api/acl/user/type'
+import { ref, onMounted, reactive, nextTick } from 'vue'
+import { reqUserInfo, reqAddUserOrEdit } from '@/api/acl/user'
+import type { UserRespData, Records, UserData } from '@/api/acl/user/type'
+import { ElMessage } from 'element-plus'
 
 let pageNo = ref<number>(1)
 let pageSize = ref<number>(5)
 let total = ref<number>(0)
 let userList = ref<Records>([])
+let drawerShow = ref<boolean>(false) // 抽屉显示
+let userParams = reactive<UserData>({
+  username: '',
+  name: '',
+  password: '',
+})
+const formRef = ref<any>(null)
 
 const getAllUser = async (page = 1) => {
   pageNo.value = page
@@ -98,6 +139,86 @@ const getAllUser = async (page = 1) => {
     total.value = result.data.total
     userList.value = result.data.records
   }
+}
+
+const addUser = () => {
+  drawerShow.value = !drawerShow.value
+  Object.assign(userParams, {
+    username: '',
+    name: '',
+    password: '',
+  })
+
+  // 清除上一次的校验结果
+  nextTick(() => {
+    formRef.value.clearValidate('username')
+    formRef.value.clearValidate('name')
+    formRef.value.clearValidate('password')
+  })
+}
+
+const updateUser = () => {
+  drawerShow.value = !drawerShow.value
+  console.log('编辑用户')
+}
+
+const save = async () => {
+  await formRef.value.validate()
+  const result = await reqAddUserOrEdit(userParams)
+  if (result.code === 200) {
+    drawerShow.value = false
+    ElMessage({
+      message: userParams.id ? '编辑成功' : '添加成功',
+      type: 'success',
+    })
+    getAllUser()
+  } else {
+    drawerShow.value = false
+    ElMessage({
+      message: userParams.id ? '编辑失败' : '添加失败',
+      type: 'error',
+    })
+  }
+}
+
+const cancel = () => {
+  drawerShow.value = false
+  Object.assign(userParams, {
+    username: '',
+    name: '',
+    password: '',
+  })
+}
+
+const validatorUsername = async (_rule: any, value: string, callBack: any) => {
+  if (value.trim().length >= 5) {
+    callBack()
+  } else {
+    callBack(new Error('用户名长度必须大于等于5'))
+  }
+}
+
+const validatorName = async (_rule: any, value: string, callBack: any) => {
+  if (value.trim().length >= 5) {
+    callBack()
+  } else {
+    callBack(new Error('用户昵称长度必须大于等于5'))
+  }
+}
+
+const rules = {
+  username: [
+    { required: true, message: '请输入用户名', trigger: 'blur' },
+    { validator: validatorUsername, trigger: 'blur' },
+  ],
+  name: [
+    { required: true, message: '请输入用户昵称', trigger: 'blur' },
+    { validator: validatorName, trigger: 'blur' },
+  ],
+  password: [
+    { required: true, message: '请输入用户密码', trigger: 'blur' },
+    { min: 6, max: 18, message: '密码长度在 6 到 18 个字符', trigger: 'blur' },
+  ],
 }
 
 onMounted(() => {

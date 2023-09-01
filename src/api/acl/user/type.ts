@@ -9,10 +9,10 @@ export interface UserData {
   username?: string
   name?: string
   password?: string
-  phone: null
-  roleName: string
-  createTime: string
-  updateTime: string
+  phone?: null
+  roleName?: string
+  createTime?: string
+  updateTime?: string
 }
 
 export type Records = UserData[]
