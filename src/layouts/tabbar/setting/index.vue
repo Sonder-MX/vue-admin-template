@@ -80,7 +80,7 @@ const updateRefsh = () => {
 //全屏按钮点击的回调
 const fullScreen = () => {
   //DOM对象的一个属性:可以用来判断当前是不是全屏模式[全屏:true,不是全屏:false]
-  let full = document.fullscreenElement
+  const full = document.fullscreenElement
   //切换为全屏模式
   if (!full) {
     //文档根节点的方法requestFullscreen,实现全屏模式
@@ -119,7 +119,7 @@ const predefineColors = ref([
 //switch开关的chang事件进行暗黑模式的切换
 const changeDark = () => {
   //获取HTML根节点
-  let html = document.documentElement
+  const html = document.documentElement
   //判断HTML标签是否有类名dark
   dark.value ? (html.className = 'dark') : (html.className = '')
 }

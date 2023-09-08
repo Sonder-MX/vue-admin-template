@@ -7,6 +7,7 @@ import gloablComponent from '@/components/index'
 import '@/styles/index.scss'
 import router from './router'
 import pinia from './stores'
+import 'element-plus/theme-chalk/dark/css-vars.css'
 import './guard'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment

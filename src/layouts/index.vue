@@ -73,7 +73,6 @@ const route = useRoute()
     position: fixed;
     top: 0;
     right: 0;
-    background-color: #eee;
     transition: all 0.5s;
 
     &.fold {
