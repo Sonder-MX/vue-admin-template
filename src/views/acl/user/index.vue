@@ -56,7 +56,7 @@
         <el-table-column label="操作" width="300px" align="center">
           <template #="{ row, $index }">
             <el-button type="primary" size="small" icon="User">
-              分类角色
+              分配角色
             </el-button>
             <el-button
               type="primary"
@@ -178,7 +178,7 @@ const save = async () => {
       message: userParams.id ? '编辑成功' : '添加成功',
       type: 'success',
     })
-    getAllUser(userParams.id ? pageNo.value : 1)
+    // getAllUser(userParams.id ? pageNo.value : 1)
 
     window.location.reload()
   } else {
