@@ -5,7 +5,11 @@
         <Top />
       </div>
       <div class="main">
-        <div class="left"></div>
+        <div class="left">
+          <Tourist class="tourist" />
+          <Sex class="sex" />
+          <Age class="age" />
+        </div>
         <div class="center"></div>
         <div class="right"></div>
       </div>
@@ -16,6 +20,9 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
 import Top from './components/top/index.vue'
+import Tourist from './components/tourist/index.vue'
+import Sex from './components/sex/index.vue'
+import Age from './components/age/index.vue'
 
 const screenRef = ref()
 
