@@ -14,7 +14,11 @@
           <MapChart class="map-chart" />
           <LineChart class="line-chart" />
         </div>
-        <div class="right"></div>
+        <div class="right">
+          <RankChart class="rank" />
+          <YearChart class="year" />
+          <CountChart class="count" />
+        </div>
       </div>
     </div>
   </div>
@@ -28,6 +32,9 @@ import Sex from './components/sex/index.vue'
 import Age from './components/age/index.vue'
 import MapChart from './components/map/index.vue'
 import LineChart from './components/line/index.vue'
+import RankChart from './components/rank/index.vue'
+import YearChart from './components/year/index.vue'
+import CountChart from './components/count/index.vue'
 
 const screenRef = ref()
 
