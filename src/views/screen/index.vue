@@ -10,7 +10,10 @@
           <Sex class="sex" />
           <Age class="age" />
         </div>
-        <div class="center"></div>
+        <div class="center">
+          <MapChart class="map-chart" />
+          <LineChart class="line-chart" />
+        </div>
         <div class="right"></div>
       </div>
     </div>
@@ -23,6 +26,8 @@ import Top from './components/top/index.vue'
 import Tourist from './components/tourist/index.vue'
 import Sex from './components/sex/index.vue'
 import Age from './components/age/index.vue'
+import MapChart from './components/map/index.vue'
+import LineChart from './components/line/index.vue'
 
 const screenRef = ref()
 
@@ -111,11 +116,11 @@ window.onresize = () => {
         display: flex;
         flex-direction: column;
 
-        .map {
+        .map-chart {
           flex: 4;
         }
 
-        .line {
+        .line-chart {
           flex: 1;
         }
       }
